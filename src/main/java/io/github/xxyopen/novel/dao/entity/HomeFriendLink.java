@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  * @author xiongxiaoyang
  * @date 2022/05/11
  */
-@TableName("home_friend_link")
+    @TableName("home_friend_link")
 public class HomeFriendLink implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -12,6 +12,14 @@
     <groupId>io.github.xxyopen</groupId>
     <artifactId>novel</artifactId>
     <version>3.4.0</version>
+
+
+<!--    <groupId>org.example</groupId>-->
+<!--    <artifactId>lessons</artifactId>-->
+<!--    <version>1.0-SNAPSHOT</version>-->
+
+
+
     <name>novel</name>
     <description>Spring Boot 3 + Vue 3 构建的前后端分离小说系统</description>
     <properties>

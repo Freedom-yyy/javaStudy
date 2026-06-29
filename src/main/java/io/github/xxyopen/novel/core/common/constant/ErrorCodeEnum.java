@@ -1,5 +1,6 @@
 package io.github.xxyopen.novel.core.common.constant;
 
+import io.github.xxyopen.novel.dao.entity.HomeFriendLink;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -137,7 +138,9 @@ public enum ErrorCodeEnum {
     /**
      * 一级宏观错误码，中间件服务出错
      */
-    MIDDLEWARE_SERVICE_ERROR("C0100", "中间件服务出错");
+    MIDDLEWARE_SERVICE_ERROR("C0100", "中间件服务出错"),
+
+    HOME_FRIEND_LINK_NOT_EXIST("D0001","找不到友情链接");
 
     /**
      * 错误码

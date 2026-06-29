@@ -63,6 +63,11 @@ public class ApiRouterConsts {
     public static final String SEARCH_URL_PREFIX = "/search";
 
     /**
+     * 友情链接模块请求路径前缀
+     */
+    public static final String FRIEND_LINK_URL_PREFIX = "/friendLink";
+
+    /**
      * 前台门户首页API请求路径前缀
      */
     public static final String API_FRONT_HOME_URL_PREFIX = API_FRONT_URL_PREFIX + HOME_URL_PREFIX;
@@ -81,6 +86,12 @@ public class ApiRouterConsts {
      * 前台门户会员相关API请求路径前缀
      */
     public static final String API_FRONT_USER_URL_PREFIX = API_FRONT_URL_PREFIX + USER_URL_PREFIX;
+
+    /**
+     * 友情链接相关API请求路径前缀
+     */
+    public static final String API_FRIEND_LINK_PREFIX = API_URL_PREFIX + FRIEND_LINK_URL_PREFIX;
+
 
     /**
      * 前台门户资源（图片/视频/文档）相关API请求路径前缀

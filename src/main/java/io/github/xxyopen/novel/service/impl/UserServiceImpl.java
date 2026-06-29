@@ -162,6 +162,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public RestResp<UserInfoRespDto> getUserInfo(Long userId) {
         UserInfo userInfo = userInfoMapper.selectById(userId);
+
         return RestResp.ok(UserInfoRespDto.builder()
             .nickName(userInfo.getNickName())
             .userSex(userInfo.getUserSex())
