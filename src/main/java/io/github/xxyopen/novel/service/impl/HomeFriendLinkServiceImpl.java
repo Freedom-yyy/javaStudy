@@ -2,6 +2,8 @@ package io.github.xxyopen.novel.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import io.github.xxyopen.novel.core.annotation.MyKey;
+import io.github.xxyopen.novel.core.annotation.MyLock;
 import io.github.xxyopen.novel.core.common.constant.ErrorCodeEnum;
 import io.github.xxyopen.novel.core.common.exception.BusinessException;
 import io.github.xxyopen.novel.core.common.resp.RestResp;
@@ -10,6 +12,7 @@ import io.github.xxyopen.novel.dao.entity.HomeFriendLink;
 import io.github.xxyopen.novel.dao.mapper.HomeFriendLinkMapper;
 import io.github.xxyopen.novel.dto.req.HomeFriendLinkSaveReqDto;
 import io.github.xxyopen.novel.dto.resp.HomeFriendLinkRespDto;
+import io.github.xxyopen.novel.manager.cache.FriendLinkCacheManager;
 import io.github.xxyopen.novel.service.HomeFriendLinkService;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -21,6 +24,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class HomeFriendLinkServiceImpl implements HomeFriendLinkService {
     private final HomeFriendLinkMapper homeFriendLinkMapper;
+    private final FriendLinkCacheManager friendLinkCacheManager;
 
 //    @Override
 //    public RestResp<Void> saveFriendLink(String linkName, String linkUrl, Integer sort, Integer isOpen ) {
@@ -36,7 +40,8 @@ public class HomeFriendLinkServiceImpl implements HomeFriendLinkService {
 //    }
 
     @Override
-    public RestResp<Void> saveFriendLink(HomeFriendLinkSaveReqDto dto) {
+    @MyLock(prefix = "friendLinkSave")
+    public RestResp<Void> saveFriendLink(@MyKey(expr = "#{linkUrl}") HomeFriendLinkSaveReqDto dto) {
         HomeFriendLink homeFriendLink = new HomeFriendLink();
         homeFriendLink.setLinkName(dto.getLinkName());
         homeFriendLink.setLinkUrl(dto.getLinkUrl());
@@ -45,6 +50,8 @@ public class HomeFriendLinkServiceImpl implements HomeFriendLinkService {
         homeFriendLink.setCreateTime(LocalDateTime.now());
         homeFriendLink.setUpdateTime(LocalDateTime.now());
         homeFriendLinkMapper.insert(homeFriendLink);
+        //新增友情链接后，清除缓存
+        friendLinkCacheManager.evictFriendLinksCache();
         return RestResp.ok();
     }
 
@@ -54,6 +61,8 @@ public class HomeFriendLinkServiceImpl implements HomeFriendLinkService {
 /*        QueryWrapper<HomeFriendLink> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(DatabaseConsts.CommonColumnEnum.ID.getName(),id);
         homeFriendLinkMapper.delete(queryWrapper);*/
+        //删除友情链接后，清楚缓存
+        friendLinkCacheManager.evictFriendLinksCache();
         return  RestResp.ok();
     }
 
@@ -62,6 +71,7 @@ public class HomeFriendLinkServiceImpl implements HomeFriendLinkService {
      * @param id
      * @return
      * @throws BusinessException 找不到友情鏈接會抛異常
+     * 这里不涉及缓存的读取
      */
     @Override
     public RestResp<HomeFriendLinkRespDto> getFriendLink(Long id) throws BusinessException {
@@ -84,6 +94,8 @@ public class HomeFriendLinkServiceImpl implements HomeFriendLinkService {
             homeFriendLink.setLinkName(LinkName);
             homeFriendLink.setUpdateTime(LocalDateTime.now());
             homeFriendLinkMapper.updateById(homeFriendLink);
+            //更新友情链接后，清除列表缓存
+            friendLinkCacheManager.evictFriendLinksCache();
             return RestResp.ok();
         }
         return RestResp.error();

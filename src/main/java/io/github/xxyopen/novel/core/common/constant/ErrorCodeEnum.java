@@ -140,8 +140,8 @@ public enum ErrorCodeEnum {
      */
     MIDDLEWARE_SERVICE_ERROR("C0100", "中间件服务出错"),
 
-    HOME_FRIEND_LINK_NOT_EXIST("D0001","找不到友情链接");
-
+    HOME_FRIEND_LINK_NOT_EXIST("D0001","找不到友情链接"),
+    USER_REQUEST_TOO_MANY ("D0002","请求太过频繁");
     /**
      * 错误码
      */

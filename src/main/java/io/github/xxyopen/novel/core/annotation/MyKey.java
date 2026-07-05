@@ -1,0 +1,10 @@
+package io.github.xxyopen.novel.core.annotation;
+
+import java.lang.annotation.*;
+
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.PARAMETER)
+public @interface MyKey {
+    String expr() default "";
+}
